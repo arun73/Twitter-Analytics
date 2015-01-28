@@ -1,3 +1,6 @@
+#Sqlite 3 db files
+*.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
