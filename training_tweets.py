@@ -4,7 +4,7 @@ import time
 import nltk
 import pprint
 
-conn = sqlite3.connect('tweets-analytics.db')
+conn = sqlite3.connect('tweets.db')
 conn.text_factory = str
 c = conn.cursor()
 pp = pprint.PrettyPrinter(indent=4)
@@ -52,16 +52,18 @@ def main():
 	# 	tweets.append((words_filtered, sentiment))
 
 	for (tweet, sentiment) in tweets_data:
-		tokenized = nltk.word_tokenize(tweet)
+		tokenized = nltk.word_tokenize(tweet.decode('utf-8'))
 		tagged = nltk.pos_tag(tokenized)
 		word_list = [word for (word, tag) in tagged if tag in tag_set]
+		tweets.append((word_list, sentiment))
+		# print 'Tweet:\n', tweet, '\n'
+		# print 'Tagged:\n', str(tagged), '\n'
+		# print word_list
+		# print '\n\n'
 
-		print 'Tweet:\n', tweet, '\n'
-		print 'Tagged:\n', str(tagged), '\n'
-		print word_list
-		print '\n\n'
+		# time.sleep(5)
 
-		time.sleep(5)
+	print len(tweets);
 
 	word_features = getWordFeatures(getWordsInTweets(tweets))
 
