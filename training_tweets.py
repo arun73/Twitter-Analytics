@@ -21,7 +21,7 @@ test_tweets = [
 
 def getAllTweets():
 	tweets = []
-	for row in c.execute('SELECT * FROM training_data LIMIT 1000'):
+	for row in c.execute('SELECT * FROM training_data LIMIT 1600000'):
 		tweets.append(row)
 		#time.sleep(10)
 	return tweets
@@ -30,7 +30,7 @@ def getAllTweets():
 def getWordsInTweets(tweets):
 	wordList = []
 	for (words, sentiment) in tweets:
-		wordList = wordList + words
+		wordList.extend(words);
 	# pp.pprint(wordList)
 	return wordList
 
@@ -38,24 +38,25 @@ def getWordsInTweets(tweets):
 def getWordFeatures(wordList):
 	wordList = nltk.FreqDist(wordList)
 	word_features = wordList.keys()
-	pp.pprint(wordList)
+	print wordList.most_common(1000)
+	#pp.pprint(wordList)
 	return word_features
 
 
-def main():
-	tweets_data = getAllTweets()
-	tweets = []
+#def main():
+tweets_data = getAllTweets()
+tweets = []
+conn.close()
+# Laurent Luce
+for (words, sentiment) in tweets_data:
+ 	words_filtered = [e.lower() for e in words.split() if len(e) >= 3]
+ 	tweets.append((words_filtered, sentiment))
 
-	# Laurent Luce
-	# for (words, sentiment) in tweets_data:
-	# 	words_filtered = [e.lower() for e in words.split() if len(e) >= 3]
-	# 	tweets.append((words_filtered, sentiment))
-
-	for (tweet, sentiment) in tweets_data:
-		tokenized = nltk.word_tokenize(tweet.decode('utf-8'))
-		tagged = nltk.pos_tag(tokenized)
-		word_list = [word for (word, tag) in tagged if tag in tag_set]
-		tweets.append((word_list, sentiment))
+	#for (tweet, sentiment) in tweets_data:
+	#	tokenized = nltk.word_tokenize(tweet.decode('utf-8'))
+	#	tagged = nltk.pos_tag(tokenized)
+	#	word_list = [word for (word, tag) in tagged if tag in tag_set]
+	#	tweets.append((word_list, sentiment))
 		# print 'Tweet:\n', tweet, '\n'
 		# print 'Tagged:\n', str(tagged), '\n'
 		# print word_list
@@ -63,10 +64,12 @@ def main():
 
 		# time.sleep(5)
 
-	print len(tweets);
+print len(tweets);
 
-	word_features = getWordFeatures(getWordsInTweets(tweets))
+word_features = getWordFeatures(getWordsInTweets(tweets))
 
 
-main()
-conn.close()
+
+
+
+
