@@ -1,5 +1,8 @@
+#API-Key
+api_key.txt
+
 #Sqlite 3 db files
-*.db
+#*.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
