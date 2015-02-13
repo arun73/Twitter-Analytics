@@ -1,6 +1,9 @@
 #API-Key
 api_key.txt
 
+#Pycharm IDE files
+.idea/
+
 #Sqlite 3 db files
 #*.db
 
